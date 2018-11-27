@@ -1,0 +1,23 @@
+--- # Notification and Handling events
+  - hosts: centos
+    remote_user: ansible
+    become: yes
+    become_method: sudo
+    gather_facts: yes
+    connection: ssh
+    tasks: 
+    - name: Install nginx web server
+      yum: 
+        name: nginx
+        state: latest
+      # The notify statement has to match EXACTLY what I have in the handlers section for name.
+      # The notify statement kicks off, if the package hasn't been installed into the environment and has been installed for the FIRST TIME.  
+      notify:
+      - Enable and Start the nginx service
+    handlers:
+    - name: Enable and Start the nginx service
+      service: 
+        name: nginx
+        enabled: yes
+        state: restarted
+    

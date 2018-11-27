@@ -1,0 +1,13 @@
+--- # Testing how variables work in the vars section of a playbook
+--- # On the Linux command line run the following --> ansible-playbook varsubst.yaml --extra-vars "myhost=centos gather=yes pkg=telnet" 
+- hosts: '{{ myhost }}'
+  remote_user: ansible
+  become: yes
+  become_method: sudo
+  connection: ssh
+  gather_facts: '{{ gather }}'
+  tasks:
+  - name: Install the indicated software
+    yum: 
+      name: '{{ pkg }}'
+      state: latest
